@@ -16,35 +16,39 @@ namespace familia {
     class Tokenizer {
     public:
         Tokenizer() = default;
+
         virtual ~Tokenizer() = default;
-        virtual void tokenize(const std::string& text,std::vector<std::string>& result) const = 0;
+
+        virtual void tokenize(const std::string &text, std::vector<std::string> &result) const = 0;
     };
 
-    class SimpleTokenizer: public Tokenizer{
+    class SimpleTokenizer : public Tokenizer {
     public:
-        SimpleTokenizer(const std::string& vocab_path): _max_word_len(1){
+        SimpleTokenizer(const std::string &vocab_path) : _max_word_len(1) {
             load_vocab(vocab_path);
         }
 
         ~SimpleTokenizer() = default;
 
-        void tokenize(const std::string& text,std::vector<std::string>& result)const override ;
+        void tokenize(const std::string &text, std::vector<std::string> &result) const override;
 
-        bool contains(const std::string& word) const;
+        bool contains(const std::string &word) const;
 
     private:
-        void load_vocab(const std::string& vocab_path);
+        void load_vocab(const std::string &vocab_path);
 
-        static bool is_eng_char(char c){
-            return (c>='A' && c<='Z')||(c>='a'&&c<='z');
+        static bool is_eng_char(char c) {
+            return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
         }
-        static char tolower(char c){
-            if (c>='A' && c<='Z'){
-                return 'a'+(c-'A');
-            }else{
+
+        static char tolower(char c) {
+            if (c >= 'A' && c <= 'Z') {
+                return 'a' + (c - 'A');
+            } else {
                 return c;
             }
         }
+
         int _max_word_len;
         std::unordered_set<std::string> _vocab;
     };
